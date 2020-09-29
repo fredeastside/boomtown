@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  php:
+    container_name: php
+    build:
+      context: ./docker/php
+      args:
+        TIMEZONE: ${TIMEZONE}
+        USER: ${USER}
+        UID: ${UID}
+    env_file:
+      - .env
+    environment:
+      APP_ROOT_DIR: ${APP_ROOT_DIR}
+    volumes:
+      - ${APP_PATH}:${APP_ROOT_DIR}:cached
+      - ./docker/php/conf/my.ini:/usr/local/etc/php/conf.d/my.ini
+    networks:
+      - boomtown
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/hosts:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx
+    volumes_from:
+      - php
+    networks:
+      - boomtown
+
+networks:
+  boomtown:
+    driver: bridge
