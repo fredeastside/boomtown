@@ -6,26 +6,26 @@ use Github\Client;
 use Github\Exception\RuntimeException;
 use HttpSoft\Emitter\SapiEmitter;
 use HttpSoft\Response\HtmlResponse;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 class App
 {
-    public function run()
+    public function run(): void
     {
-        $client = new Client();
-        try {
-            $organization = $client->api('organizations');
-            $hooks = $organization->repositories()->all('boomtownroi');
-        } catch (RuntimeException $exception) {
-
-        }
-        //$repositories = $client->api('organizations')->show('boomtownroi');
-
-        $this->emitHTML();
+        $html = $this->makeViewEngine()->render('index.twig', ['name' => 'Sergei']);
+        $this->emitHTML($html);
     }
 
-    private function emitHTML()
+    private function makeViewEngine()
     {
-        $response = new HtmlResponse('<p>Hi</p>');
+        $loader = new FilesystemLoader(__DIR__ . '/../templates');
+        return new Environment($loader);
+    }
+
+    private function emitHTML(string $html): void
+    {
+        $response = new HtmlResponse($html);
 
         $emitter = new SapiEmitter();
         $emitter->emit($response);

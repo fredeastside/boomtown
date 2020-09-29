@@ -7,3 +7,5 @@ composer: ; docker-compose exec php composer install
 up: ; docker-compose up -d --build
 
 start: up composer
+
+down: ; docker-compose down
