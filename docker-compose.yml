@@ -13,6 +13,8 @@ services:
       - .env
     environment:
       APP_ROOT_DIR: ${APP_ROOT_DIR}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
     volumes:
       - ${APP_PATH}:${APP_ROOT_DIR}:cached
       - ./docker/php/conf/my.ini:/usr/local/etc/php/conf.d/my.ini
@@ -29,6 +31,12 @@ services:
       - ./docker/nginx/logs:/var/log/nginx
     volumes_from:
       - php
+    networks:
+      - boomtown
+
+  redis:
+    container_name: redis
+    image: redis:latest
     networks:
       - boomtown
 

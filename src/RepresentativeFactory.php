@@ -3,13 +3,11 @@
 namespace Boomtown;
 
 use Boomtown\Github\GithubRepresentative;
-use Boomtown\Github\GithubStorage;
-use Github\Client;
 
 class RepresentativeFactory
 {
-    public static function make(): Representative
+    public static function make(Storage $storage): Representative
     {
-        return new GithubRepresentative(new GithubStorage(new Client()));
+        return new GithubRepresentative($storage);
     }
 }

@@ -26,25 +26,16 @@ class Info
         $this->publicReposCount = (int) $data['public_repos'];
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
     public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @return int
-     */
     public function getPublicReposCount(): int
     {
         return $this->publicReposCount;

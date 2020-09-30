@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Boomtown\Github;
 
 use Boomtown\Representative;
+use Boomtown\RepresentativeException;
 use Boomtown\Storage;
 use Github\Exception\RuntimeException;
 use Throwable;
 
 class GithubRepresentative implements Representative
 {
-    /**
-     * @var Storage
-     */
     private Storage $storage;
 
     public function __construct(Storage $storage)

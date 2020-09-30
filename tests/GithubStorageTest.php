@@ -2,7 +2,7 @@
 
 namespace Boomtown\Tests;
 
-use Boomtown\GithubStorage;
+use Boomtown\Github\GithubStorage;
 use DateTime;
 use DomainException;
 use Github\Api\Organization;
@@ -22,11 +22,11 @@ class GithubStorageTest extends TestCase
         for ($i = 1; $i <= 30; $i++) {
             $repos[] = ['id' => $i];
         }
-        $organizationMock->expects($this->exactly(2))
+        $organizationMock->expects(self::exactly(2))
             ->method('repositories')
             ->withConsecutive(
-                [$this->equalTo(GithubStorage::ID), 'public', 1],
-                [$this->equalTo(GithubStorage::ID), 'public', 2],
+                [self::equalTo(GithubStorage::ID), 'public', 1],
+                [self::equalTo(GithubStorage::ID), 'public', 2],
             )->willReturnOnConsecutiveCalls($repos, ['id' => 31]);
         $clientMock = $this->getClientMock($organizationMock);
 
@@ -55,7 +55,7 @@ class GithubStorageTest extends TestCase
             31,
         );
 
-        $organizationMock->expects($this->exactly(2))
+        $organizationMock->expects(self::exactly(2))
             ->method('repositories')
             ->with(GithubStorage::ID, 'public')->willReturn([]);
 

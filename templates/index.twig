@@ -29,13 +29,15 @@
                             <table class="table collapse" id="collapse{{ item.title }}">
                                 <thead>
                                 <tr>
-                                    <th scope="col"># ID</th>
+                                    <th scope="col">#</th>
+                                    <th>ID</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for id in item.ids %}
                                     <tr>
-                                        <th scope="row">{{ id }}</th>
+                                        <th scope="row">{{ loop.index }}</th>
+                                        <td>{{ id }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

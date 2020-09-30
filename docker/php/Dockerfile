@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git
 
+RUN pecl install redis && docker-php-ext-enable redis
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

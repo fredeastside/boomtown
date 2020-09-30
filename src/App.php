@@ -2,8 +2,12 @@
 
 namespace Boomtown;
 
+use Boomtown\Github\GithubStorage;
+use Cache\Adapter\Redis\RedisCachePool;
+use Github\Client;
 use HttpSoft\Emitter\SapiEmitter;
 use HttpSoft\Response\HtmlResponse;
+use Redis;
 use Throwable;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -17,7 +21,12 @@ class App
             'items' => [],
         ];
         try {
-            $representative = RepresentativeFactory::make();
+            $redisClient = new Redis();
+            $redisClient->connect(getenv('REDIS_HOST'), (int) getenv('REDIS_PORT'));
+            $pool = new RedisCachePool($redisClient);
+            $client = new Client();
+            $client->addCache($pool);
+            $representative = RepresentativeFactory::make(new GithubStorage($client));
             $view['items'] = $representative->render();
         } catch (Throwable $e) {
             $view['isUnavailable'] = true;

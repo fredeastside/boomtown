@@ -14,9 +14,7 @@ class GithubStorage implements Storage
     private const DEFAULT_COUNT = 30;
 
     private Client $client;
-
     private Organization $organization;
-
     private Info $organizationInfo;
 
     public function __construct(Client $client)
