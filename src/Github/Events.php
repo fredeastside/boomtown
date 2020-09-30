@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Boomtown;
+namespace Boomtown\Github;
 
 use Github\Api\AbstractApi;
 

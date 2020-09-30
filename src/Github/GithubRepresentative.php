@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Boomtown;
+namespace Boomtown\Github;
 
+use Boomtown\Representative;
+use Boomtown\Storage;
 use Github\Exception\RuntimeException;
 use Throwable;
 

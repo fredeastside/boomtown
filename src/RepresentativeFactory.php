@@ -2,6 +2,8 @@
 
 namespace Boomtown;
 
+use Boomtown\Github\GithubRepresentative;
+use Boomtown\Github\GithubStorage;
 use Github\Client;
 
 class RepresentativeFactory

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Boomtown;
+namespace Boomtown\Github;
 
 class ItemView
 {

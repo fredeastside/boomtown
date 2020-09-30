@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Boomtown;
+namespace Boomtown\Github;
 
+use Boomtown\Storage;
 use DomainException;
 use Generator;
 use Github\Api\Organization;
