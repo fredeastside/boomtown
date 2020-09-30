@@ -10,14 +10,40 @@
 
     <title>Boomtown!</title>
 </head>
-<body class="text-center">
+<body>
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <main role="main" class="inner cover">
-            <h1>{{ name }}</h1>
-            <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-            <p class="lead">
-                <a href="#" class="btn btn-lg btn-secondary">Learn more</a>
-            </p>
+            {% if isUnavailable %}
+                <h1>Sorry! Service unavailable.</h1>
+            {% else %}
+                {% if items %}
+                    {% for item in items %}
+                        <div class="alert alert-{% if item.isOK %}success{% else %}danger{% endif %}" role="alert">
+                            {% if item.isOK %}
+                                <a data-toggle="collapse" href="#collapse{{ item.title }}" role="button" aria-expanded="false" aria-controls="collapse{{ item.title }}">{{ item.title }}</a>
+                            {% else %}
+                                {{ item.title }}
+                            {% endif %}
+                        </div>
+                        {% if item.ids %}
+                            <table class="table collapse" id="collapse{{ item.title }}">
+                                <thead>
+                                <tr>
+                                    <th scope="col"># ID</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for id in item.ids %}
+                                    <tr>
+                                        <th scope="row">{{ id }}</th>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
         </main>
     </div>
 

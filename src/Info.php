@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Boomtown\DTO;
+namespace Boomtown;
 
 use DateTimeImmutable;
+use DomainException;
 use InvalidArgumentException;
+use Exception;
 
 class Info
 {
     private DateTimeImmutable $createdAt;
     private DateTimeImmutable $updatedAt;
-    private int $publicRepos;
+    private int $publicReposCount;
 
     public function __construct(array $data)
     {
@@ -20,9 +22,8 @@ class Info
                 throw new InvalidArgumentException(sprintf('Param %s must be set.', $param));
             }
         }
-        $this->createdAt = new DateTimeImmutable($data['created_at']);
-        $this->updatedAt = new DateTimeImmutable($data['updated_at']);
-        $this->publicRepos = (int) $data['public_repos'];
+        $this->validateDates($data);
+        $this->publicReposCount = (int) $data['public_repos'];
     }
 
     /**
@@ -44,8 +45,21 @@ class Info
     /**
      * @return int
      */
-    public function getPublicRepos(): int
+    public function getPublicReposCount(): int
     {
-        return $this->publicRepos;
+        return $this->publicReposCount;
+    }
+
+    private function validateDates(array $data): void
+    {
+        try {
+            $this->createdAt = new DateTimeImmutable($data['created_at']);
+            $this->updatedAt = new DateTimeImmutable($data['updated_at']);
+        } catch (Exception $exception) {
+            throw new DomainException('Invalid input dates.');
+        }
+        if ($this->updatedAt < $this->createdAt) {
+            throw new DomainException('Updated date must be more than created.');
+        }
     }
 }

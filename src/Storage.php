@@ -4,9 +4,7 @@ namespace Boomtown;
 
 interface Storage
 {
-    public function getInfo();
-
-    public function getRepos();
+    public function getPublicRepos();
 
     public function getEvents();
 

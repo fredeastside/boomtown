@@ -2,10 +2,9 @@
 
 namespace Boomtown;
 
-use Github\Client;
-use Github\Exception\RuntimeException;
 use HttpSoft\Emitter\SapiEmitter;
 use HttpSoft\Response\HtmlResponse;
+use Throwable;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -13,11 +12,22 @@ class App
 {
     public function run(): void
     {
-        $html = $this->makeViewEngine()->render('index.twig', ['name' => 'Sergei']);
+        $view = [
+            'isUnavailable' => false,
+            'items' => [],
+        ];
+        try {
+            $representative = RepresentativeFactory::make();
+            $view['items'] = $representative->render();
+        } catch (Throwable $e) {
+            $view['isUnavailable'] = true;
+        }
+
+        $html = $this->makeViewEngine()->render('index.twig', $view);
         $this->emitHTML($html);
     }
 
-    private function makeViewEngine()
+    private function makeViewEngine(): Environment
     {
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
         return new Environment($loader);
